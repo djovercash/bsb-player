@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 
 import TrackPlayer from './components/TrackPlayer';
 import TrackList from './components/TrackList';
@@ -58,14 +58,14 @@ class App extends Component {
 	 * Callback for the view changing with the navigation
 	 * @param {string} medium The medium now in view
 	 */
-	_onViewClick = (medium = '') => {
+	_onNavClickCallback = (medium = '') => {
 		this.setState({ currentNavView: medium });
 	}
 
 	/**
 	 * Callback for the play/pause button
 	 */
-	_onPlayClick = () => {
+	_onPlayClickCallback = () => {
 		if (!Object.keys(this.state.currentTrack || {}).length) {
 			this._onTrackChangeCallback((this.state[`${this.state.currentNavView}Tracks`][0] || {}).index);
 		} else {
@@ -83,7 +83,7 @@ class App extends Component {
 						isPaused={this.state.isPaused}
 						hasNext={this.state.hasNext}
 						hasPrev={this.state.hasPrev}
-						playCallback={this._onPlayClick}
+						playCallback={this._onPlayClickCallback}
 						trackChangeCallback={this._onTrackChangeCallback} />
 					<TrackList
 						currentNavView={this.state.currentNavView}
@@ -91,7 +91,7 @@ class App extends Component {
 						currentTrackIndex={this.state.currentTrack.index || null}
 						isPaused={this.state.isPaused}
 						trackChangeCallback={this._onTrackChangeCallback}
-						viewCallback={this._onViewClick} />
+						viewCallback={this._onNavClickCallback} />
 				</div>
 			</div>
 		);

@@ -1,0 +1,65 @@
+.track {
+	background: none;
+	border: none;
+	cursor: pointer;
+	display: block;
+	font: 14px sans-serif;
+	margin: 0;
+	max-width: 290px;
+	overflow: hidden;
+	padding: 10px 4px;
+	position: relative;
+	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+
+	&:not(:last-of-type) {
+		border-bottom: 1px solid $gray;
+	}
+
+	&:hover {
+		background: $light-blue;
+	}
+
+	&[class*="track-active"] {
+		background: $light-blue;
+		padding-left: 25px;
+
+		&::before {
+			border-right: 2px solid $gold;
+			border-top: 2px solid $gold;
+			content: '';
+			height: 8px;
+			position: absolute;
+			left: 4px;
+			top: 50%;
+			transform: translateY(-50%) rotate(45deg);
+			transition: 0.5s transform ease;
+			width: 8px;
+		}
+	}
+
+	&.track-active__paused {
+		&::before {
+			border-left: 2px solid $gold;
+			border-top: none;
+			height: 14px;
+			left: 8px;
+			transform: translateY(-50%)rotate(0);
+			width: 6px;
+		}
+	}
+}
+
+@media all and (max-width: $breakpoint-desktop) {
+	.track {
+		font-size: 12px;
+	}
+}
+
+@media all and (max-width: $breakpoint-tablet) {
+	.track {
+		max-width: calc(100%);
+	}
+}
