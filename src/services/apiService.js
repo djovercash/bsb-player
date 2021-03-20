@@ -5,7 +5,7 @@ const apiEndPoint = 'https://s3-us-west-2.amazonaws.com/anchor-website/challenge
 /**
  * Calls api endpoint to retrieve api data.
  * If call fails, use back up data and console error the failure
- * @return {Object[]} An array of track objects
+ * @return {Object} An object that holds a tracks array
  */
 export const fetchApiMusicData = () => (
 	fetch(apiEndPoint)

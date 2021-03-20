@@ -8,7 +8,7 @@ import { fetchApiMusicData } from './services/apiService';
 class App extends Component {
 
 	/**
-	* Fetch the api data and sets the current state
+	* Fetches the api data
 	*/
 	componentDidMount() {
 		fetchApiMusicData()
