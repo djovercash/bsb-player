@@ -1,8 +1,8 @@
 import React from 'react';
 
-const TrackButton = ({ track = {} }) => {
+const TrackButton = ({ track = {}, trackClickCallback = null }) => {
 	return (
-		<button className='track'>{track.title}</button>
+		<button className='track' onClick={() => trackClickCallback(track.index)}>{track.title}</button>
 	)
 };
 

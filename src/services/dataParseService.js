@@ -1,4 +1,16 @@
 /**
+ * Sets the current track
+ * @param {Object[]} mediaArray The array for a specific media group
+ * @param {number} index The index passed in for the current track
+ * @return {Object} The current track item
+ */
+const setCurrentTrack = (mediaArray = [], index = 1) => {
+	const safetyCheckedArray = Array.isArray(mediaArray) ? mediaArray : [];
+
+	return safetyCheckedArray.find((track = {}) => track.index === index) || {};
+}
+
+/**
  * Sets what type of medium the track belongs to
  * @param {string} mediaUrl The url source for the media element
  * @return {string} Either 'video' or 'audio' based on media's source string
@@ -51,4 +63,5 @@ const mapApiData = (apiData = {}) => {
 
 module.exports = {
 	mapApiData,
+	setCurrentTrack,
 };

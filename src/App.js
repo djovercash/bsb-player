@@ -10,6 +10,7 @@ import dataParseService from './services/dataParseService';
 class App extends Component {
 	state = {
 		audioTracks: [],
+		currentTrack: {},
 		videoTracks: [],
 	};
 
@@ -27,11 +28,20 @@ class App extends Component {
 			});
 	}
 
+	_onTrackChangeCallback = (index = 0) => {;
+		const currentTrack = dataParseService.setCurrentTrack([...this.state.audioTracks, ...this.state.videoTracks], index);
+		const hasCurrentTrack = !!Object.keys(currentTrack).length;
+
+		this.setState({
+			currentTrack,
+		});
+	}
+
 	render() {
 		console.log('STATE: ', this.state)
 		return (
 			<div className='App'>
-				<TrackList tracks={[...this.state.audioTracks, ...this.state.videoTracks]}/>
+				<TrackList callbacks={{ trackClickCallback: this._onTrackChangeCallback }} tracks={[...this.state.audioTracks, ...this.state.videoTracks]}/>
 			</div>
 		)
 	};
