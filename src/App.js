@@ -11,7 +11,10 @@ import dataParseService from './services/dataParseService';
 class App extends Component {
 	state = {
 		audioTracks: [],
+		currentNavView: 'audio',
 		currentTrack: {},
+		isPlaying: false,
+		isPaused: false,
 		videoTracks: [],
 	};
 
@@ -27,7 +30,7 @@ class App extends Component {
 					videoTracks: mappedData.filter((track = {}) => track.mediaUrl && track.medium === 'video'),
 				});
 			});
-	}
+	};
 
 	_onTrackChangeCallback = (index = 0) => {;
 		const currentTrack = dataParseService.setCurrentTrack([...this.state.audioTracks, ...this.state.videoTracks], index);
@@ -36,16 +39,30 @@ class App extends Component {
 		this.setState({
 			currentTrack,
 		});
-	}
+	};
+
+	_onViewClick = (medium = '') => {
+		this.setState({ currentNavView: medium });
+	};
+
+	_onPlayClick = () => {
+		if (!Object.keys(this.state.currentTrack || {}).length) {
+			this._onTrackChangeCallback((this.state[`${this.state.currentNavView}Tracks`][0] || {}).index);
+		} else {
+			this.setState({ isPlaying: !this.state.isPlaying, isPaused: !this.state.isPaused });
+		};
+	};
 
 	render() {
 		console.log('STATE: ', this.state)
 		return (
 			<div className='App'>
-				<TrackPlayer currentTrack={this.state.currentTrack} />
+				<TrackPlayer
+					callbacks={{ playClickCallback: this._onPlayClick }}
+					currentTrack={this.state.currentTrack} />
 				<TrackList
-					callbacks={{ trackClickCallback: this._onTrackChangeCallback }}
-					tracks={[...this.state.audioTracks, ...this.state.videoTracks]} />
+					callbacks={{ navClickCallback: this._onViewClick, trackClickCallback: this._onTrackChangeCallback }}
+					tracks={this.state[`${this.state.currentNavView}Tracks`]} />
 			</div>
 		)
 	};
