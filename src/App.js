@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TrackList from './components/TrackList';
+import TrackPlayer from './components/TrackPlayer';
 
 import logo from './logo.svg';
 import './App.css';
@@ -41,7 +42,10 @@ class App extends Component {
 		console.log('STATE: ', this.state)
 		return (
 			<div className='App'>
-				<TrackList callbacks={{ trackClickCallback: this._onTrackChangeCallback }} tracks={[...this.state.audioTracks, ...this.state.videoTracks]}/>
+				<TrackPlayer currentTrack={this.state.currentTrack} />
+				<TrackList
+					callbacks={{ trackClickCallback: this._onTrackChangeCallback }}
+					tracks={[...this.state.audioTracks, ...this.state.videoTracks]} />
 			</div>
 		)
 	};
