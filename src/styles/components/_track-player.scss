@@ -1,0 +1,87 @@
+.track-player {
+	margin-right: 2%;
+	width: 100%;
+}
+
+.track-player__media {
+	background: $black url($background-image) center/contain no-repeat;
+	border: 2px solid $gold;
+	height: 0;
+	padding-bottom: 56.25%; // 16x9 ratio
+	position: relative;
+	width: 100%;
+
+	video {
+		bottom: 0;
+		left: 0;
+		height: 100%;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 100%;
+	}
+}
+
+.track-player__title {
+	background: $black;
+	border: 2px solid $gold;
+	border-top: none;
+	color: $light-blue;
+	font: 600 18px/2 sans-serif;
+	margin: 0 0 12px;
+	padding: 12px 0;
+	text-align: center;
+	width: 100%;
+}
+
+.track-player__controls {
+	display: flex;
+	justify-content: space-around;
+}
+
+.track-player__control {
+	background: $dark-blue;
+	border: 1px solid gold;
+	color: $white;
+	cursor: pointer;
+	font: 600 14px sans-serif;
+	margin: 0;
+	min-width: 20%;
+	padding: 10px 4px;
+	text-transform: uppercase;
+}
+
+.track-player__control--disabled {
+	background: $black;
+	border: none;
+	color: $gray;
+	pointer-events: none;
+}
+
+@media all and (max-width: $breakpoint-desktop) {
+	.track-player__title {
+		font-size: 16px;
+	}
+
+	.track-player__control {
+		font-size: 12px;
+	}
+}
+
+@media all and (max-width: $breakpoint-tablet) {
+	.track-player {
+		margin: 0 0 12px;
+		width: 100%;
+	}
+}
+
+@media all and (max-width: $breakpoint-mobile) {
+	.track-player__title {
+		font-size: 14px;
+	}
+
+	.track-player__control {
+		font-size: 10px;
+		padding: 6px 4px;
+	}
+}

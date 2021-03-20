@@ -1,0 +1,33 @@
+@import './styles/_variables';
+
+@import './styles/components/_track-button';
+@import './styles/components/_track-list';
+@import './styles/components/_track-player';
+
+html {
+	background: $gray;
+}
+
+.container {
+	box-sizing: border-box;
+	height: 100%;
+	padding: 10px;
+	margin: 0 auto;
+	max-width: 1230px;
+	width: 100%;
+}
+
+.container__components {
+	display: flex;
+}
+
+button:active,
+button:focus {
+	outline: none;
+}
+
+@media all and (max-width: $breakpoint-tablet) {
+	.container__components {
+		flex-direction: column;
+	}
+}
