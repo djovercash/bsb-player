@@ -35,23 +35,51 @@ class TrackPlayer extends Component {
 		const tagType = currentTrack.medium === 'video' ? 'video/mp4' : 'audio/x-m4a';
 
 		return (
-			<CustomTag name={currentTrack.medium || 'audio'} ref={this.state.player} >
+			<CustomTag name={currentTrack.medium || 'audio'} ref={this.state.player} onEnded={() => this.props.trackChangeCallback(this.props.currentTrack.index + 1, false, true)}>
 				<source src={currentTrack.mediaUrl || ''} type={tagType}/>
 			</CustomTag>
 		)
 	}
 
+	/**
+	 * Sets the inline styles for the track player
+	 * @param {Object} currentTrack The current track to be played
+	 * @return {Object} The new player element
+	 */
+	setPlayerStyles(currentTrack = {}) {
+		if ((currentTrack || {}).image) {
+			return { backgroundImage: `url("${currentTrack.image}")` };
+		}
+
+		return {};
+	}
+
+	/**
+	 * Sets the classes for the player buttons
+	 * @param {string} buttonType The type of button
+	 * @param {boolean} isActive True when active
+	 * @return {string} The classes for the individual button
+	 */
+	setButtonClasses(buttonType = '', isActive = false) {
+		let buttonClasses = 'track-player__control';
+
+		return ['next', 'prev'].includes(buttonType) ? `${buttonClasses} track-player__control--${isActive ? 'active' : 'disabled'}` : buttonClasses;
+	}
+
 	render() {
+		const styles = this.setPlayerStyles(this.props.currentTrack);
+		const isPlaying = this.props.isPlaying ? 'pause' : 'play';
+
 		return (
 			<div className='track-player'>
-				<div className='track-player__media'>
+				<div className='track-player__media' style={styles}>
 					{this.createPlayer(this.props.currentTrack || {})}
 				</div>
 				<h3 className='track-player__title'>{(this.props.currentTrack || {}).title || 'Select a track from the playlist or hit "Play"'}</h3>
 				<div className='track-player__controls'>
-					<button className='track-player__control'>Previous</button>
-					<button className='track-player__control' onClick={() => this.props.callbacks.playClickCallback()}>Play</button>
-					<button className='track-player__control'>Next</button>
+					<button className={this.setButtonClasses('prev', this.props.hasPrev)} onClick={() => this.props.trackChangeCallback(this.props.currentTrack.index - 1)}>Previous</button>
+					<button className={this.setButtonClasses('play')} onClick={() => this.props.playCallback()}>{isPlaying}</button>
+					<button className={this.setButtonClasses('next', this.props.hasNext)} onClick={() => this.props.trackChangeCallback(this.props.currentTrack.index + 1)}>Next</button>
 				</div>
 			</div>
 		);

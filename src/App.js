@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
-import TrackList from './components/TrackList';
-import TrackPlayer from './components/TrackPlayer';
-
-import logo from './logo.svg';
 import './App.css';
 
-import { fetchApiMusicData } from './services/apiService';
+import TrackPlayer from './components/TrackPlayer';
+import TrackList from './components/TrackList';
+
 import dataParseService from './services/dataParseService';
+import { fetchApiMusicData } from './services/apiService';
 
 class App extends Component {
 	state = {
 		audioTracks: [],
-		currentNavView: 'audio',
 		currentTrack: {},
+		currentNavView: 'audio',
+		hasNext: false,
+		hasPrev: false,
 		isPlaying: false,
 		isPaused: false,
 		videoTracks: [],
 	};
 
 	/**
-	* Fetches the api data, parses it, and sets up initial state
-	*/
+	 * Fetch the api data and sets the current state
+	 */
 	componentDidMount() {
 		fetchApiMusicData()
 			.then((data = {}) => {
@@ -30,21 +31,40 @@ class App extends Component {
 					videoTracks: mappedData.filter((track = {}) => track.mediaUrl && track.medium === 'video'),
 				});
 			});
-	};
+	}
 
-	_onTrackChangeCallback = (index = 0) => {;
-		const currentTrack = dataParseService.setCurrentTrack([...this.state.audioTracks, ...this.state.videoTracks], index);
+	/**
+	 * Callback for current track change
+	 * @param {number} index The index for the current track item
+	 * @param {boolean} trackSelected True if a specific track was selected
+	 * @param {boolean} autoplayTrackChange True if previous track ended and we are auto loading the next one
+	 */
+	_onTrackChangeCallback = (index = 0, trackSelected = false, autoplayTrackChange = false) => {
+		const mediaArray = this.state[`${autoplayTrackChange ? this.state.currentTrack.medium : this.state.currentNavView}Tracks`];
+		const currentTrack = dataParseService.setCurrentTrack(mediaArray, index);
 		const hasCurrentTrack = !!Object.keys(currentTrack).length;
 
 		this.setState({
+			currentNavView: hasCurrentTrack ? currentTrack.medium : 'audio',
 			currentTrack,
-		});
-	};
+			hasNext: hasCurrentTrack ? dataParseService.setTrackPointer(mediaArray, index, true) : false,
+			hasPrev: hasCurrentTrack ? dataParseService.setTrackPointer(mediaArray, index, false) : false,
+			isPlaying: hasCurrentTrack && (trackSelected || !this.state.isPaused),
+			isPaused: trackSelected ? false : this.state.isPaused,
+		})
+	}
 
+	/**
+	 * Callback for the view changing with the navigation
+	 * @param {string} medium The medium now in view
+	 */
 	_onViewClick = (medium = '') => {
 		this.setState({ currentNavView: medium });
-	};
+	}
 
+	/**
+	 * Callback for the play/pause button
+	 */
 	_onPlayClick = () => {
 		if (!Object.keys(this.state.currentTrack || {}).length) {
 			this._onTrackChangeCallback((this.state[`${this.state.currentNavView}Tracks`][0] || {}).index);
@@ -54,18 +74,28 @@ class App extends Component {
 	};
 
 	render() {
-		console.log('STATE: ', this.state)
 		return (
-			<div className='App'>
-				<TrackPlayer
-					callbacks={{ playClickCallback: this._onPlayClick }}
-					currentTrack={this.state.currentTrack} />
-				<TrackList
-					callbacks={{ navClickCallback: this._onViewClick, trackClickCallback: this._onTrackChangeCallback }}
-					tracks={this.state[`${this.state.currentNavView}Tracks`]} />
+			<div className='container'>
+				<div className='container__components'>
+					<TrackPlayer
+						currentTrack={this.state.currentTrack}
+						isPlaying={this.state.isPlaying}
+						isPaused={this.state.isPaused}
+						hasNext={this.state.hasNext}
+						hasPrev={this.state.hasPrev}
+						playCallback={this._onPlayClick}
+						trackChangeCallback={this._onTrackChangeCallback} />
+					<TrackList
+						currentNavView={this.state.currentNavView}
+						currentTracks={this.state[`${this.state.currentNavView}Tracks`]}
+						currentTrackIndex={this.state.currentTrack.index || null}
+						isPaused={this.state.isPaused}
+						trackChangeCallback={this._onTrackChangeCallback}
+						viewCallback={this._onViewClick} />
+				</div>
 			</div>
-		)
-	};
+		);
+	}
 }
 
 export default App;
