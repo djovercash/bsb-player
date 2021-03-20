@@ -77,6 +77,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className='container'>
+				<Header />
 				<div className='container__components'>
 					<TrackPlayer
 						currentTrack={this.state.currentTrack}
@@ -92,7 +93,7 @@ class App extends Component {
 						currentTrackIndex={this.state.currentTrack.index || null}
 						isPaused={this.state.isPaused}
 						trackChangeCallback={this._onTrackChangeCallback}
-						viewCallback={this._onNavClickCallback} />
+						navCallback={this._onNavClickCallback} />
 				</div>
 			</div>
 		);
