@@ -11,6 +11,19 @@ const setCurrentTrack = (mediaArray = [], index = 1) => {
 }
 
 /**
+ * Sets whether or not there is a next or previous track
+ * @param {Object[]} mediaArray The array for a specific media group
+ * @param {number} index The index passed in for the current track
+ * @param {boolean} isNext True if we're looking for the next track
+ * @return {boolean} True if a pointer track exists
+ */
+const setTrackPointer = (mediaArray = [], index = 1, isNext = false) => {
+	const safetyCheckedArray = Array.isArray(mediaArray) ? mediaArray : [];
+
+	return !!(safetyCheckedArray.find((track = {}) => track.index === index + (isNext ? 1 : -1)) || {}).mediaUrl;
+};
+
+/**
  * Sets what type of medium the track belongs to
  * @param {string} mediaUrl The url source for the media element
  * @return {string} Either 'video' or 'audio' based on media's source string
@@ -55,7 +68,6 @@ const sortByValue = (itemOneValue = '', itemTwoValue = '') => (
 const mapApiData = (apiData = {}) => {
 	const safetyCheckedArray = Array.isArray((apiData || {}).tracks) ? apiData.tracks : [];
 
-	// Ideally we could refactor the API call so the data is already sorted from the backend
 	return safetyCheckedArray.sort((trackOne = {}, trackTwo = {}) => sortByValue((trackOne || {}).title, (trackTwo || {}).title))
 		.sort((trackOne = {}, trackTwo = {}) => sortByValue(setDataMediumType((trackOne || {}).mediaUrl), setDataMediumType((trackTwo || {}).mediaUrl)))
 		.map((track = {}, index = 0) => createTrackItem(track, index));
@@ -64,4 +76,5 @@ const mapApiData = (apiData = {}) => {
 module.exports = {
 	mapApiData,
 	setCurrentTrack,
+	setTrackPointer,
 };

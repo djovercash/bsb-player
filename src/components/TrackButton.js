@@ -1,8 +1,10 @@
 import React from 'react';
 
-const TrackButton = ({ track = {}, trackClickCallback = null }) => {
+const TrackButton = ({ track = {}, isActive = false, isPaused = false, trackCallback = null }) => {
+	const trackClassName = `track track-${isActive ? `active__${isPaused ? 'paused' : 'playing'}` : 'disabled'}`;
+
 	return (
-		<button className='track' onClick={() => trackClickCallback(track.index)}>{track.title}</button>
+		<button className={trackClassName} onClick={() => trackCallback(track.index, true)}>{track.title}</button>
 	)
 };
 

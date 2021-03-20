@@ -1,22 +1,19 @@
 import React from 'react';
 import TrackButton from '../components/TrackButton';
 
-const TrackList = ({ callbacks = {}, currentNavView = 'audio', tracks = {} }) => {
+const TrackList = ({ currentNavView = 'audio', currentTracks = [], currentTrackIndex = null, isPaused = false, viewCallback = null, trackChangeCallback = null }) => {
 	const mediums = ['audio', 'video'];
+
 	return (
 		<div className='track-list'>
 			<div className='track-list__nav'>
 				{mediums.map((medium, key) =>
-					<div
-						className={`track-list__nav--item track-list__nav--item-${medium}`}
-						key={key}
-						data-active={medium === currentNavView}
-						onClick={() => callbacks.navClickCallback(medium)}>{medium}</div>
+					<div className={`track-list__nav--item track-list__nav--item-${medium}`} key={key} data-active={medium === currentNavView} onClick={() => viewCallback(medium)}>{medium}</div>
 				)}
 			</div>
 			<div className='track-list__tracks'>
-				{tracks.map((track, key) =>
-					<TrackButton track={track} key={key} trackClickCallback={callbacks.trackClickCallback}/>
+				{currentTracks.map((item, key) =>
+					<TrackButton track={item} key={key} isActive={item.index === currentTrackIndex} isPaused={isPaused} trackCallback={trackChangeCallback}/>
 				)}
 			</div>
 		</div>
