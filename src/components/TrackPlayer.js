@@ -16,7 +16,12 @@ class TrackPlayer extends Component {
 				this.state.player.current.load();
 			}
 
-			this.state.player.current.play();
+			if (this.props.isPlaying) {
+				this.state.player.current.play();
+			} else {
+				this.state.player.current.pause();
+			}
+
 		}
 	}
 
@@ -45,7 +50,7 @@ class TrackPlayer extends Component {
 				<h3 className='track-player__title'>{(this.props.currentTrack || {}).title || 'Select a track from the playlist or hit "Play"'}</h3>
 				<div className='track-player__controls'>
 					<button className='track-player__control'>Previous</button>
-					<button className='track-player__control'>Play</button>
+					<button className='track-player__control' onClick={() => this.props.callbacks.playClickCallback()}>Play</button>
 					<button className='track-player__control'>Next</button>
 				</div>
 			</div>
