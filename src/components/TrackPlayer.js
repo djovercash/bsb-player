@@ -1,6 +1,25 @@
 import React, { Component } from 'react';
 
 class TrackPlayer extends Component {
+	state = {
+		player: React.createRef(),
+	};
+
+	/**
+	 * Update the player each time this component receives an update
+	 * @param {Object} prevState The previous state of this component
+	 */
+	componentDidUpdate(prevState) {
+		if (Object.keys(this.props.currentTrack || {}).length) {
+			// If the track index changed or if the readyState is not ready, load the media
+			if (prevState.currentTrack.index !== this.props.currentTrack.index || !this.state.player.current.readyState) {
+				this.state.player.current.load();
+			}
+
+			this.state.player.current.play();
+		}
+	}
+
 	/**
 	 * Creates a new player element
 	 * @param {Object} currentTrack The current track selected by the user
@@ -11,7 +30,7 @@ class TrackPlayer extends Component {
 		const tagType = currentTrack.medium === 'video' ? 'video/mp4' : 'audio/x-m4a';
 
 		return (
-			<CustomTag name={currentTrack.medium || 'audio'} >
+			<CustomTag name={currentTrack.medium || 'audio'} ref={this.state.player} >
 				<source src={currentTrack.mediaUrl || ''} type={tagType}/>
 			</CustomTag>
 		)
