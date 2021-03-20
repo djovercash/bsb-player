@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.scss';
 
+import Header from './components/Header';
 import TrackPlayer from './components/TrackPlayer';
 import TrackList from './components/TrackList';
 

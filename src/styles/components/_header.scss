@@ -1,0 +1,31 @@
+.header {
+	margin-bottom: 12px;
+	text-align: center;
+
+	h1 {
+		align-items: center;
+		color: $white;
+		display: inline-flex;
+		font: 600 46px/1.5 sans-serif;
+		margin: 0;
+		text-shadow: 2px 2px $dark-blue;
+
+		span {
+			font-size: 36px;
+			font-family: cursive;
+			margin-left: 4px;
+		}
+	}
+}
+
+@media all and (max-width: $breakpoint-mobile) {
+	.header {
+		h1 {
+			font-size: 36px;
+
+			span {
+				font-size: 24px;
+			}
+		}
+	}
+}
