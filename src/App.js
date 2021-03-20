@@ -7,19 +7,27 @@ import { fetchApiMusicData } from './services/apiService';
 import dataParseService from './services/dataParseService';
 
 class App extends Component {
+	state = {
+		audioTracks: [],
+		videoTracks: [],
+	};
 
 	/**
-	* Fetches the api data and parses it
+	* Fetches the api data, parses it, and sets up initial state
 	*/
 	componentDidMount() {
 		fetchApiMusicData()
 			.then((data = {}) => {
 				const mappedData = dataParseService.mapApiData(data);
-				console.log('MAPPED DATA: ', mappedData);
+				this.setState({
+					audioTracks: mappedData.filter((track = {}) => track.mediaUrl && track.medium === 'audio'),
+					videoTracks: mappedData.filter((track = {}) => track.mediaUrl && track.medium === 'video'),
+				});
 			});
 	}
 
 	render() {
+		console.log('STATE: ', this.state)
 		return (
 			<div className='App'></div>
 		)
