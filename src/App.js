@@ -21,7 +21,7 @@ class App extends Component {
 	};
 
 	/**
-	 * Fetch the api data and sets the current state
+	 * Fetch the api data, parse it, and sets the current state
 	 */
 	componentDidMount() {
 		fetchApiMusicData()
