@@ -43,6 +43,11 @@ class TrackPlayer extends Component {
 					{this.createPlayer(this.props.currentTrack || {})}
 				</div>
 				<h3 className='track-player__title'>{(this.props.currentTrack || {}).title || 'Select a track from the playlist or hit "Play"'}</h3>
+				<div className='track-player__controls'>
+					<button className='track-player__control'>Previous</button>
+					<button className='track-player__control'>Play</button>
+					<button className='track-player__control'>Next</button>
+				</div>
 			</div>
 		);
 	}
