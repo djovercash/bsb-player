@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# Backstreet Boys Player
+This project is a single page web app that fetches a list of urls of video and audio content along with titles and images. The goal is to display them, with the option to play, pause, skip forward, and go back by track until there is nothing more to play.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Running Locally
+To run this locally, pull down the repo and run ```npm i && npm start``` from the terminal
+**NOTE:** If you have an issue running, check your node version. This was created on node ```v10.19.0```
 
-## Available Scripts
+## Requirements
+- Ability to playback both audio and video tracks
+- Display the currently playing track’s title and artwork/video
+- Display a list of all playable tracks
+	- Indicate the currently playing track in the list
+	- Ability to click a track in the list to start playing it
+- Ability to skip to next or previous track
+- Ability to automatically start playing the next track when current track ends
+- Ability to stop playback if there are no tracks to skip/advance to
+- Track playback does not need to start on page load, playback is user-initiated
 
-In the project directory, you can run:
+Here’s a rough wireframe of what your app should look like:
+<img width="593" alt="Screen Shot 2021-03-19 at 8 45 16 PM" src="https://user-images.githubusercontent.com/30905686/111854126-11628880-88f4-11eb-8370-af385957fc3c.png">
 
-### `npm start`
+## Notes on Project
+First and foremore, this was some of the most fun I've had working on a project. It's a fun concept with some challenges along the way to make you think.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Approach
+Before starting the timer, I took some time to look at the wireframe and figure out if this would be better in React or with Vanilla JS. I ended up choosing React since it already has a way to manage state pretty easily. I may go back and try it with Vanilla JS (was even thinking you could do a Node server and use Pug.js to create the template server side and then send it to the client).
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Basic State Structure
+Once I settled on React, then I took some time to plot out what needed to happen. Basically it became a home page (App.js) with two branches: the track list and the track player which needed to inform each other when the other changes. That meant that all major state needed to be housed in App.js. From there I broke out my tasks (get the data, parse the data, present the data, and manipulate the data)
 
-### `npm test`
+### Media Elements
+Then I needed to decide if I wanted to find a package to handle the media elements. I decided given the time frame it would be better to just lean into my knowledge of the regular audio and video tags. Since they match - outside of the names - I utilized that to just update the source depending on the current track.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Layout
+I tried to stick to the wireframe but did manage to get a few additional features in there. I knew from the beginning that - personally as a user - I would want the audio and video separated out. I'm find switching between the two, but my brain would be confused without it being clear. I also tried to make it as clear as possible what kind of experience the user was about to have by having clear labels on the nav.
 
-### `npm run build`
+Responsiveness was also something I wanted to get in there. Even just basic responsiveness (although I had a little bit of time to do some more responsiveness then I was planning - not perfect but some).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Wish List
+I tried to stick close to the 2 hour time limit (excluding my pre-building planning, any none building tasks (i.e. pull requests), and this README). Had I had more time there was a list of things I would have liked to do:
+	- Track Duration: Since this was not mentioned in the requirements, I decided it was a nice to have but not a must. I wanted to utilize Moment.js if there was time to display each tracks duration when it was playing
+	- Refactor Pointer Logic: Towards the end I was not thrilled with my pointer logic. I feel it could have been cleaner to just grab the index of the item in the array rather than having an index on each individual track to look for
+	- Responsiveness: While I managed to get some responsiveness in there, there is a ton more I could have done
+	- Track Title Cleanup: I thought about removing the "by Backstreet Boys" from each track, but didn't want to spend too much time on that when I still have other tasks to achieve.
