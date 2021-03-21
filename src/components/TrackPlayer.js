@@ -9,7 +9,7 @@ class TrackPlayer extends Component {
 	 * Update the player each time this component receives an update
 	 * @param {Object} prevState The previous state of this component
 	 */
-	componentDidUpdate(prevState) {
+	componentDidUpdate(prevState = {}) {
 		if (Object.keys(this.props.currentTrack || {}).length) {
 			// If the track index changed or if the readyState is not ready, load the media
 			if (prevState.currentTrack.index !== this.props.currentTrack.index || !this.state.player.current.readyState) {

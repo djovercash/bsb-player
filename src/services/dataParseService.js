@@ -68,6 +68,9 @@ const sortByValue = (itemOneValue = '', itemTwoValue = '') => (
 const mapApiData = (apiData = {}) => {
 	const safetyCheckedArray = Array.isArray((apiData || {}).tracks) ? apiData.tracks : [];
 
+	// I'm not a huge fan of the double sort into a map. In a real world scenario,
+	// I would have a conversation with backend on what they could do so frontend
+	// could just make the fetch and have the data all prepped.
 	return safetyCheckedArray.sort((trackOne = {}, trackTwo = {}) => sortByValue((trackOne || {}).title, (trackTwo || {}).title))
 		.sort((trackOne = {}, trackTwo = {}) => sortByValue(setDataMediumType((trackOne || {}).mediaUrl), setDataMediumType((trackTwo || {}).mediaUrl)))
 		.map((track = {}, index = 0) => createTrackItem(track, index));
